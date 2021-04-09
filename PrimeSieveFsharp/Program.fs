@@ -27,13 +27,16 @@ let validateResults primeCounts sieveSize primes =
 let runSieve sieveSize (bitArray: bool[]) =
     let mutable factor = 3
     let mutable num = 0
-    let q = Math.Sqrt (float sieveSize) |> int
+    let q = sieveSize |> float |> sqrt |> int
 
     while factor < q do
-        factor <- seq {factor..2..sieveSize} |> Seq.find (Array.get bitArray)
+        num <- factor
+        while not (Array.get bitArray num) && num < sieveSize do
+            num <- num + 2
+        factor <- num
 
         num <- factor * factor
-        while num <= sieveSize do
+        while num < sieveSize do
             Array.set bitArray num false
             num <- num + factor * 2
 
