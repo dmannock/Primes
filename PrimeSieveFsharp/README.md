@@ -22,7 +22,7 @@ Passes: 10480, Time: 5.000000, Avg: 0.000477, Limit: 1000000, Count1: 78498, Cou
 Passes: 11878, Time: 5.000140, Avg: 0.000421, Limit: 1000000, Count: 78498, Valid: true
 ```
 
-### F# [Port from C++](/PrimeSieveFsharp_Port)
+### F# [Port from C++](PrimeSieveFsharp_Port)
 ```
 Passes: 7804, Time: 5.000276, Avg: 0.000641, Limit: 1000000, Count: 78498, Valid: true
 ```
