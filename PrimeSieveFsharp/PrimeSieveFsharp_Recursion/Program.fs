@@ -41,7 +41,7 @@ let runSieve sieveSize (bitArray: bool[]) =
         loop (factor * factor)
       
     let rec run factor =
-        if factor < q then
+        if factor <= q then
             let factor = findNext factor
             eliminate factor
             run (factor +  2)

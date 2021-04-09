@@ -29,7 +29,7 @@ let runSieve sieveSize (bitArray: byref<bool[]>) =
     let mutable num = 0
     let q = sieveSize |> float |> sqrt |> int
 
-    while factor < q do
+    while factor <= q do
         num <- factor
         while not (Array.get bitArray num) && num < sieveSize do
             num <- num + 2
