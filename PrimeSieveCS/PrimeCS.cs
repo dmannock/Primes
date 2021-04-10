@@ -13,7 +13,7 @@ namespace PrimeSieveCS
         class prime_sieve
         {
             private readonly int sieveSize = 0;
-            private readonly BitArray bitArray;
+            private readonly bool[] bitArray;
             private static readonly Dictionary<int, int> myDict = new Dictionary<int, int> 
             { 
                 { 10 , 1 },                 // Historical data for validating our results - the number of primes
@@ -29,13 +29,14 @@ namespace PrimeSieveCS
             public prime_sieve(int size) 
             {
                 sieveSize = size;
-                bitArray = new BitArray(sieveSize, true);
+                bitArray = new bool[size];
+                Array.Fill(bitArray, true);
             }
 
             public int countPrimes()
             {
                 int count = 1;
-                for (int i = 3; i < this.bitArray.Count; i += 2)
+                for (int i = 3; i < this.bitArray.Length; i += 2)
                     if (bitArray[i])
                         count++;
                 return count;
