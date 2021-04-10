@@ -12,9 +12,9 @@ namespace PrimeSieveCS
     {
         class prime_sieve
         {
-            private int sieveSize = 0;
-            private BitArray bitArray;
-            private Dictionary<int, int> myDict = new Dictionary<int, int> 
+            private readonly int sieveSize = 0;
+            private readonly BitArray bitArray;
+            private static readonly Dictionary<int, int> myDict = new Dictionary<int, int> 
             { 
                 { 10 , 1 },                 // Historical data for validating our results - the number of primes
                 { 100 , 25 },               // to be found under some limit, such as 168 primes under 1000
@@ -29,13 +29,13 @@ namespace PrimeSieveCS
             public prime_sieve(int size) 
             {
                 sieveSize = size;
-                bitArray = new BitArray((int)((this.sieveSize + 1) / 2), true);
+                bitArray = new BitArray(sieveSize, true);
             }
 
             public int countPrimes()
             {
-                int count = 0;
-                for (int i = 0; i < this.bitArray.Count; i++)
+                int count = 1;
+                for (int i = 3; i < this.bitArray.Count; i += 2)
                     if (bitArray[i])
                         count++;
                 return count;
@@ -44,25 +44,8 @@ namespace PrimeSieveCS
             public bool validateResults()
             {
                 if (myDict.ContainsKey(this.sieveSize))
-                    return this.myDict[this.sieveSize] == this.countPrimes();
+                    return myDict[this.sieveSize] == this.countPrimes();
                 return false;
-            }
-
-            private bool GetBit(int index)
-            {
-                if (index % 2 == 0)
-                    return false;
-                return bitArray[index / 2];
-            }
-
-            private void ClearBit(int index)
-            {
-                if (index % 2 == 0)
-                {
-                    Console.WriteLine("You are setting even bits, which is sub-optimal");
-                    return;
-                }
-                bitArray[index / 2] = false;      
             }
 
             // primeSieve
@@ -74,11 +57,11 @@ namespace PrimeSieveCS
                 int factor = 3;
                 int q = (int) Math.Sqrt(this.sieveSize);
 
-                while (factor < q)
+                while (factor <= q)
                 {
-                    for (int num = factor; num <= this.sieveSize; num++)
+                    for (int num = factor; num <= this.sieveSize; num += 2)
                     {
-                        if (GetBit(num))
+                        if (bitArray[num])
                         {
                             factor = num;
                             break;
@@ -88,8 +71,8 @@ namespace PrimeSieveCS
                     // If marking factor 3, you wouldn't mark 6 (it's a mult of 2) so start with the 3rd instance of this factor's multiple.
                     // We can then step by factor * 2 because every second one is going to be even by definition
 
-                    for (int num = factor * 3; num <= this.sieveSize; num += factor * 2)
-                        ClearBit(num);
+                    for (int num = factor * factor; num < this.sieveSize; num += factor * 2)
+                        bitArray[num] = false;
 
                     factor += 2;
                 }
@@ -101,9 +84,9 @@ namespace PrimeSieveCS
                     Console.Write("2, ");
 
                 int count = 1;
-                for (int num = 3; num <= this.sieveSize; num++)
+                for (int num = 3; num <= this.sieveSize; num += 2)
                 {
-                    if (GetBit(num))
+                    if (bitArray[num])
                     {
                         if (showResults)
                             Console.Write(num + ", ");
@@ -118,13 +101,14 @@ namespace PrimeSieveCS
 
         static void Main(string[] args)
         {
-            var tStart = DateTime.UtcNow;
+            const int sieveSize = 1_000_000;
             var passes = 0;
             prime_sieve sieve = null;
+            var tStart = DateTime.UtcNow;
 
-            while ((DateTime.UtcNow - tStart).TotalSeconds < 10)
+            while ((DateTime.UtcNow - tStart).TotalSeconds < 5)
             {
-                sieve = new prime_sieve(1000000);
+                sieve = new prime_sieve(sieveSize);
                 sieve.runSieve();
                 passes++;
             }
