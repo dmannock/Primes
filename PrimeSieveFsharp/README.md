@@ -29,7 +29,7 @@ Passes: 7804, Time: 5.000276, Avg: 0.000641, Limit: 1000000, Count: 78498, Valid
 
 ### C#
 ```
-Passes: 3545, Time: 5.0012068, Avg: 0.0014107776586741892, Limit: 1000000, Count: 78498, Valid: True
+Passes: 5049, Time: 5.0010085, Avg: 0.0009904948504654387, Limit: 1000000, Count: 78498, Valid: True
 ```
 _Note: Ran the updated C# version that also matches the latest C++ version where the bitArray length = sieveSize. 
 
