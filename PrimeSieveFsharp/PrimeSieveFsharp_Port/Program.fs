@@ -58,8 +58,10 @@ let printResults showResults duration passes sieveSize bitArray =
 let main _ =
     let mutable passes = 0
     let sieveSize = 1_000_000
-    let mutable sieve = initPrimeSieve sieveSize
-    let runSieve() = runSieve sieveSize &sieve
+    let mutable sieve = [||]
+    let runSieve() =
+        sieve <- initPrimeSieve sieveSize
+        runSieve sieveSize &sieve
     let tStart = DateTime.UtcNow
 
     while (DateTime.UtcNow - tStart).TotalSeconds < 5. do
